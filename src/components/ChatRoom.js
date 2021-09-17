@@ -27,6 +27,13 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: calc(100vw - 48px);
+    max-width: 460px;
+    padding: 12px 24px;
+`;
+
+const MessagesContainer = styled.div`
+    width: 100%;
 `;
 
 
@@ -126,13 +133,13 @@ export default function ChatRoom({auth, db}) {
 
     return (
         <Container>
-            <div>
+            <MessagesContainer>
                 {
                     messages.map(msg => 
                         <ChatMessage key={msg.id} data={msg.data} auth={auth} />
                     )
                 }
-            </div>
+            </MessagesContainer>
 
             <Form onSubmit={sendMessage}>
                 <MessageTextField value={formValue} onChange={handleTextFieldChange} type="text" />
