@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { signOut } from 'firebase/auth';
 import { collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from 'firebase/firestore';
@@ -14,13 +14,16 @@ const SignOutButton = styled(Button)`
 
 const MessageTextField = styled(TextField)`
     margin-right: 16px;
+    flex-grow: 1;
 `;
 const SendButton = styled(Button)`
     background-color: rgba(25,118,210, 0.1);
 `;
 const Form = styled.form`
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 40px;
 `;
 
 const Container = styled.div`
@@ -42,6 +45,7 @@ export default function ChatRoom({auth, db}) {
 
     const [messages, setMessages] = useState([]);
     const [formValue, setFormValue] = useState("");
+    const scrollElementRef = useRef();
     
     
     // ----------- Get changes in realtime -----------
@@ -129,6 +133,7 @@ export default function ChatRoom({auth, db}) {
         });
 
         setFormValue('');
+        scrollElementRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     return (
@@ -139,6 +144,7 @@ export default function ChatRoom({auth, db}) {
                         <ChatMessage key={msg.id} data={msg.data} auth={auth} />
                     )
                 }
+                <div ref={scrollElementRef} />
             </MessagesContainer>
 
             <Form onSubmit={sendMessage}>

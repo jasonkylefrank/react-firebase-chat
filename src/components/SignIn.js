@@ -3,8 +3,8 @@ import { GoogleAuthProvider, signInWithPopup /*, signInWithRedirect*/ } from "fi
 import Button from '@mui/material/Button';
 
 const SignInButton = styled(Button)`
-    ${'' /* TODO: Fix the Material UI styling issue (its styles override ours) */}
-    color: green; 
+    ${'' /* color: green;  */}
+    margin-top: 72px;
 `;
 
 export default function SignIn({ auth }) {
