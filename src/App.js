@@ -1,24 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getAnalytics } from 'firebase/analytics';
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+
+import AppHeader from './components/AppHeader';
+import SignIn from './components/SignIn';
+import ChatRoom from './components/ChatRoom';
+
+
+//#region --- Styled components ---
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+//#endregion ---
+
+//#region --- Firebase setup ---
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhN4I1rJek11x2hv5tF2lPp9MIvmCqfBg",
+  authDomain: "react-firebase-chat-e520e.firebaseapp.com",
+  projectId: "react-firebase-chat-e520e",
+  storageBucket: "react-firebase-chat-e520e.appspot.com",
+  messagingSenderId: "281666476748",
+  appId: "1:281666476748:web:34661b9894a1fe5eb30069",
+  measurementId: "G-MLDBMTXQ8B"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+getAnalytics(firebaseApp);
+const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
+//#endregion ---
+
 
 function App() {
+
+  const [user] = useAuthState(auth);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <AppHeader />
+
+      <section>
+        { user ? <ChatRoom auth={auth} db={db} /> : <SignIn auth={auth} /> }
+      </section>
+    </Container>
   );
 }
 
