@@ -7,6 +7,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* Need this so we can override MUI styles.  See: https://stackoverflow.com/a/69210767/718325 */}
     <StyledEngineProvider injectFirst>
       <App />
     </StyledEngineProvider>
