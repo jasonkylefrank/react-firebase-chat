@@ -9,7 +9,6 @@ import ChatMessage from './ChatMessage';
 
 const SignOutButton = styled(Button)`
     margin-top: 72px;
-    ${'' /* color: red; */}
 `;
 
 const MessageTextField = styled(TextField)`
@@ -18,6 +17,7 @@ const MessageTextField = styled(TextField)`
 `;
 const SendButton = styled(Button)`
     background-color: rgba(25,118,210, 0.1);
+    font-size: 26px;
 `;
 const Form = styled.form`
     display: flex;
