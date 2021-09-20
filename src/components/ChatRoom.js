@@ -65,7 +65,8 @@ export default function ChatRoom({auth, db}) {
 
         const messagesRef = collection(db, 'messages');
         // v9 API note: the ref returned by collection() is a type that extends Query. So this call to query() works.
-        const q = query(messagesRef, orderBy('createdAt'), limit(25));
+        //const q = query(messagesRef, orderBy('createdAt'), limit(25));
+        const q = query(messagesRef, orderBy('createdAt'));
 
 
         // --- APPROACH 1: Subscribe to a query (without accessing the type of change of each doc)
