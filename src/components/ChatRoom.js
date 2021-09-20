@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { signOut } from 'firebase/auth';
-import { collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, query, orderBy, /*limit,*/ onSnapshot, serverTimestamp } from 'firebase/firestore';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
