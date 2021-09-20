@@ -17,8 +17,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 `;
 
+const Main = styled.main`
+  flex: 1;
+`;
+
+const Footer = styled.footer`
+  color: rgba(0,0,0, 0.4);
+  font-size: 12px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+`;
 //#endregion ---
 
 //#region --- Firebase setup ---
@@ -33,14 +45,23 @@ const firebaseConfig = {
   measurementId: "G-MLDBMTXQ8B"
 };
 
+
 const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
-// const db = getFirestore(firebaseApp);
+const db = initializeDB(firebaseApp);
 
-// --- Connect to emulated Firestore ---
-const db = getFirestore();
-connectFirestoreEmulator(db, 'localhost', 8080);
-// --- End emulated Firestore setup ---
+function initializeDB(firebaseApp) {  
+  const isProduction = true; // TODO: Use an environment variable for this
+  if (isProduction) {
+    return getFirestore(firebaseApp);
+  }
+  else {
+    // --- Connect to emulated Firestore ---
+    const emulatedDB = getFirestore();
+    connectFirestoreEmulator(emulatedDB, 'localhost', 8080);
+    return emulatedDB;
+  }
+};
 
 const auth = getAuth(firebaseApp);
 //#endregion ---
@@ -54,9 +75,10 @@ function App() {
     <Container>
       <AppHeader />
 
-      <section>
+      <Main>
         { user ? <ChatRoom auth={auth} db={db} /> : <SignIn auth={auth} /> }
-      </section>
+      </Main>
+      <Footer>Powered by Firebase technologies</Footer>
     </Container>
   );
 }
