@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 
@@ -35,7 +35,13 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 getAnalytics(firebaseApp);
-const db = getFirestore(firebaseApp);
+// const db = getFirestore(firebaseApp);
+
+// --- Connect to emulated Firestore ---
+const db = getFirestore();
+connectFirestoreEmulator(db, 'localhost', 8080);
+// --- End emulated Firestore setup ---
+
 const auth = getAuth(firebaseApp);
 //#endregion ---
 
