@@ -75,7 +75,8 @@ export default function ChatRoom({auth, db}) {
             const dbMessages = [];
 
             querySnapshot.forEach((doc) => {
-                console.log('Doc: ', doc.data());
+                //console.log('Doc: ', doc.data());
+
                 dbMessages.push({
                     ...doc,
                     //  We have to call .data() explicitly here b/c it is an inherited property of the doc and thus
@@ -87,6 +88,16 @@ export default function ChatRoom({auth, db}) {
                 })
             });
             setMessages(dbMessages);
+
+            // --- TEMP ---
+            // dbMessages.sort((a, b) => {
+            //     if (a.data.text.length > b.data.text.length) {
+            //         return 1;
+            //     } else {
+            //         return -1;
+            //     }
+            // });
+            // console.log(dbMessages.map((message) => message.data.text));
         });
     
     
