@@ -18,14 +18,19 @@ service cloud.firestore {
     }
     
     function canCreateMessage() {
+      let maxMessageLength = 5000; // characters
+
     	let isSignedIn = request.auth.uid != null;
       let isOwner = request.auth.uid == request.resource.data.uid;
       
       let isNotBanned = exists(
       	/databases/$(database)/documents/banned/$(request.auth.uid)
       ) == false;
+
+      let messageLength = request.resource.data.text.size();
+      let isMessageProperLength = messageLength > 0 && messageLength < maxMessageLength;
       
-      return isSignedIn && isOwner && isNotBanned;
+      return isSignedIn && isOwner && isNotBanned && isMessageProperLength;
     }
     
   }
