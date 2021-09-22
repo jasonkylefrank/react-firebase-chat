@@ -29,8 +29,12 @@ jobs:
           with:
             args: deploy --only functions
           env:
-            # We need to either specify a FIREBASE_TOKEN or a GCP_SA_KEY environment variable.  Since I
-            #  already had a service account secret (which got set up for me when I set up hosting deployment actions),
-            #  I'm using that option.
-            #  See: https://github.com/w9jds/firebase-action#environment-variables
-            GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_FIREBASE_CHAT_E520E }}
+            # We need to either specify a FIREBASE_TOKEN or a GCP_SA_KEY environment variable.  
+            # See: https://github.com/w9jds/firebase-action#environment-variables
+            # At first I tried using: GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_FIREBASE_CHAT_E520E }}
+            #  since I already had that service account secret (which got set up for me when I set up hosting deployment actions).
+            #  But that failed during an action run, saying, "base64: invalid input".  Besides that, I checked the GCP
+            #  Service Accounts page and found that that key is only meant for deploying to Firebase HOSTING.
+            #  (see: https://console.cloud.google.com/iam-admin/serviceaccounts?project=react-firebase-chat-e520e&supportedpurview=project).
+            #  So instead I followed "Step 7" in this article to create a FIREBASE_TOKEN and saved that as a GitHub secret: https://medium.com/mainlycoding-com/automate-firebase-functions-deployment-with-github-actions-ci-a0eb10fa308d
+            FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
