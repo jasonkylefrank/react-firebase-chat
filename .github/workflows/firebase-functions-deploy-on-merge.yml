@@ -1,0 +1,36 @@
+# Inspired by:
+#   * https://medium.com/mainlycoding-com/automate-firebase-functions-deployment-with-github-actions-ci-a0eb10fa308d
+#   * https://dev.to/calebdeji/automate-firebase-cloud-functions-deployment-with-github-actions-5dbc
+#   * https://github.com/w9jds/firebase-action
+#
+# Note: If I end up create a separate Firebase project for a staging environment, see this
+#        answer about how to modify the "deploy --only functions" command: https://stackoverflow.com/a/62398821/718325 
+
+name: Firebase functions deploy
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
+        # Runs a single command using the runners shell
+        - name: Install cloud functions npm packages
+          run: |
+            cd functions
+            npm install
+        
+        - name: Deploy to Firebase
+          uses: w9jds/firebase-action@master
+          with:
+            args: deploy --only functions
+          env:
+            # We need to either specify a FIREBASE_TOKEN or a GCP_SA_KEY environment variable.  Since I
+            #  already had a service account secret (which got set up for me when I set up hosting deployment actions),
+            #  I'm using that option.
+            #  See: https://github.com/w9jds/firebase-action#environment-variables
+            GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_FIREBASE_CHAT_E520E }}
