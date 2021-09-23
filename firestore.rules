@@ -1,10 +1,6 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  	// TODO: Selectively allow access
-    // match /{document=**} {
-    //   allow read, write: if false;  // Allow no reads or writes
-    // }
     
     // match /{document=**} {
     // 	// Only allow read/write access for signed-in users

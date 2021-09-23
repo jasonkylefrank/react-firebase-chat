@@ -22,8 +22,7 @@ exports.detectEvilUsers = functions.firestore
         if (filter.isProfane(text)) {
             const cleanedText = filter.clean(text);
             await doc.ref.update({text: `🤐  I got BANNED for life for saying... "${cleanedText}"`});
-            // TODO: Determine if there is any downside to just awaiting this last asychronous call 
-            //        instead of returning the promise.  See: https://firebase.google.com/docs/functions/terminate-functions
+            
             await db.collection('banned').doc(uid).set({});
         }
     });
