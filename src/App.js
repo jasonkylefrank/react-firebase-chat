@@ -51,8 +51,15 @@ getAnalytics(firebaseApp);
 const db = initializeDB(firebaseApp);
 
 function initializeDB(firebaseApp) {  
-  const isProduction = true; // TODO: Use an environment variable for this
-  if (isProduction) {
+    
+  const isProduction = process.env.NODE_ENV === "production";
+  // The Firebase hosting emulator uses the production code build.  But we want our code
+  //  to connect to the Firestore emulator when we're running this locally.  This variable
+  //  gives us a way to force the code to connect to the Firestore emulator even when the
+  //  NODE_ENV is set to production.
+  const forceUseFirestoreEmulator = process.env.REACT_APP_USE_FIRESTORE_EMULATOR;
+
+  if (isProduction && !forceUseFirestoreEmulator) {
     return getFirestore(firebaseApp);
   }
   else {
